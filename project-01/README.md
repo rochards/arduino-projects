@@ -14,7 +14,7 @@ Lista de materiais utilizadas:
 
 Esquema de ligação:
 - 5 V da fonte -> pino `Vin` Arduino;
-- 5 V da fonte -> alimentação do potenciômetro;
+- 3,3 V da fonte -> alimentação do potenciômetro;
 - 5 V da fonte -> `Vcc` servo motor
 - pino central do potenciômetro -> pino `A0` Arduino;
 - GND/negativo da fonte -> `GND` Arduino;
