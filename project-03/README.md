@@ -1,6 +1,6 @@
-# Lendo o comando de um botão e ascendendo um Led com os registradores do ATmega328p :bulb:
+# Lendo o comando de um botão e ligando um Led com os registradores do ATmega328p :bulb:
 
-Readme em construção :building_construction:...
+README em construção :building_construction: ...
 
 Aqui utilizaremos um Arduino Uno Rev.3.
 
@@ -12,17 +12,21 @@ Primeiro, listando as documentações aqui utilizadas:
 1. Datasheet ATmega328p: :link: https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf.
 
  
-O pino que vamos utilizar é o D13, pois já possui conexão a um LED na própria placa do Arduino. A referência para os registradores está na imagem a seguir:
+O pino que vamos utilizar é o D13, pois já possui conexão a um LED na própria placa do Arduino, e para ler o botão o D10. A seguir é mostrado um esboço das ligações entre os componentes:
 
-![arduino pinout](https://docs.arduino.cc/static/2b141eb1cfe6f465a949c203e4af1b5f/A000066-pinout.png)
+![ligação dos componentes](arduino-ligacoes.png) **OBS.:** na prática só ligamos mesmo o botão entre os pinos 10 e GND no Arduino. O que está destacado em vermelho é o resistor de *pull-up* que existe dentro do ATmega328p e iremos habilitá-lo via código. O valor desse resistor está na faixa entre 20 kΩ - 50 kΩ, conforme descreve a tabela da página 259 do *datasheet*
 
-perceba que o D13 está associado ao registrador PB5/PORTB5.  
-**OBS.:** PB5 e PORTB5 se referem ao mesmo registrador no *datasheet* do ATmega328p.
+A referência para os registradores está na imagem a seguir:
 
-Na página 72 do *datasheet* do ATmega328p vemos no detalhe os registradores em que estamos interessados:
+![arduino pinout](https://docs.arduino.cc/static/2b141eb1cfe6f465a949c203e4af1b5f/A000066-pinout.png)  
+perceba que o D13 está associado ao registrador PB5/PORTB5, e o D10 ao PB2/PORTB2  
+**OBS.:** PB5 e PORTB5 se referem ao mesmo registrador no *datasheet* do ATmega328p. O mesmo é válido para PB2 e PORTB2.
+
+Na página 72 do *datasheet* do ATmega328p vemos no detalhe os registradores em que estamos interessados:  
 ![registradores do portB](registradores.png)
-- PORTB: é o registrador onde controlaremos o sinal ON/OFF do pino do LED. No caso utilizaremos o bit PORTB5/PB5;
-- DDRB: é o registrador que determina se determinado pino é de leitura ou escrita. Precisamos configurar o bit DDRB5/PB5.
+- PORTB: é o registrador onde controlaremos o sinal ON/OFF do pino do LED quando no caso do bit PORTB5/PB5. Esse mesmo registrador serviará para configurar um resistor de *pull-up* interno do Arduino para o bit PORTB2/PB2;
+- DDRB: é o registrador que determina se determinado pino é de leitura ou escrita. Precisamos configurar os bits DDRB5/PB5 e DDRB2/PB2;
+- PINB: é o registrador que utilizamos para ler dados das portas digitais. No nosso caso queremos ler do PINB2/PB2.
 
 Então vamos ao código :man_technologist::
 
